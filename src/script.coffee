@@ -14,8 +14,8 @@ insertStatus = (el, status) ->
 
   # Create the link element.
   link       = window.document.createElement('a');
-  link.href  = status.target_url
-  link.title = status.description
+  link.href  = status.target_url || '#'
+  link.title = status.description || status.state
   link.id    = 'github-status-extension'
 
   # And finally insert the elements into the DOM.
@@ -31,7 +31,7 @@ extension due to missing DOM elements.
 el = window.document.querySelector '.title-actions-bar h1 strong'
 # detect private repos (currently unsupported)
 privateRepo = window.document.querySelector '.entry-title.private'
-if el and not !!privateRepo
+if el and not privateRepo
   # Extracting the repo owner and repo name from the pathname
   project = window.location.pathname.split('/').splice 1,3
   # Getting latest commit hash
@@ -39,15 +39,16 @@ if el and not !!privateRepo
   shaRequest.open('GET', "https://api.github.com/repos/#{project[0]}/#{project[1]}/commits", true);
   shaRequest.onreadystatechange = ->
     if shaRequest.readyState == 4
-      sha = JSON.parse(shaRequest.responseText)[0].sha
+      sha = JSON.parse(shaRequest.responseText)[0]?.sha
       # Getting latest status
+      if !sha then return
       statusRequest = new XMLHttpRequest
       statusRequest.open('GET', "https://api.github.com/repos/#{project[0]}/#{project[1]}/statuses/#{sha}", true);
       statusRequest.onreadystatechange = ->
         if statusRequest.readyState == 4
           status = JSON.parse(statusRequest.responseText)[0]
           # Finally insert the status into the DOM
-          insertStatus el, status
+          if status? then insertStatus el, status
       statusRequest.send null
   shaRequest.send null
 

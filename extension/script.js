@@ -18,8 +18,8 @@
     }
     document.styleSheets[0].insertRule("#github-status-extension{margin: 7px; display: inline-block; width: 9px; height: 9px; border-radius: 50%; background-color: " + color + "}", 1);
     link = window.document.createElement('a');
-    link.href = status.target_url;
-    link.title = status.description;
+    link.href = status.target_url || '#';
+    link.title = status.description || status.state;
     link.id = 'github-status-extension';
     return el.appendChild(link);
   };
@@ -37,21 +37,27 @@
 
   privateRepo = window.document.querySelector('.entry-title.private');
 
-  if (el && !!!privateRepo) {
+  if (el && !privateRepo) {
     project = window.location.pathname.split('/').splice(1, 3);
     shaRequest = new XMLHttpRequest;
     shaRequest.open('GET', "https://api.github.com/repos/" + project[0] + "/" + project[1] + "/commits", true);
     shaRequest.onreadystatechange = function() {
-      var sha, statusRequest;
+      var sha, statusRequest, _ref;
       if (shaRequest.readyState === 4) {
-        sha = JSON.parse(shaRequest.responseText)[0].sha;
+        sha = (_ref = JSON.parse(shaRequest.responseText)[0]) != null ? _ref.sha : void 0;
+        if (!sha) {
+          return;
+        }
         statusRequest = new XMLHttpRequest;
         statusRequest.open('GET', "https://api.github.com/repos/" + project[0] + "/" + project[1] + "/statuses/" + sha, true);
         statusRequest.onreadystatechange = function() {
           var status;
           if (statusRequest.readyState === 4) {
+            debugger;
             status = JSON.parse(statusRequest.responseText)[0];
-            return insertStatus(el, status);
+            if (status != null) {
+              return insertStatus(el, status);
+            }
           }
         };
         return statusRequest.send(null);
