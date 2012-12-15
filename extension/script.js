@@ -1,9 +1,3 @@
-
-/*
- helper function which inserts the status into the dom
-*/
-
-
 (function() {
   var el, insertStatus, privateRepo, project, shaRequest;
 
@@ -44,7 +38,6 @@
   privateRepo = window.document.querySelector('.entry-title.private');
 
   if (el && !!!privateRepo) {
-    console.log('doing something');
     project = window.location.pathname.split('/').splice(1, 3);
     shaRequest = new XMLHttpRequest;
     shaRequest.open('GET', "https://api.github.com/repos/" + project[0] + "/" + project[1] + "/commits", true);
