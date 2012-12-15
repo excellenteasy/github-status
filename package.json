@@ -1,11 +1,11 @@
 {
-  "name": "github-status-chrome-extension",
+  "name": "github-status",
   "version": "0.0.1",
   "description": "Display build status next to the project name on github.",
   "main": "Gruntfile.js",
   "repository": {
     "type": "git",
-    "url": "git://github.com/excellenteasy/github-status-chrome-extension.git"
+    "url": "git://github.com/excellenteasy/github-status.git"
   },
   "keywords": [
     "chrome",
