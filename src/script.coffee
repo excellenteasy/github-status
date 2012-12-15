@@ -49,6 +49,16 @@ if el and not privateRepo
           status = JSON.parse(statusRequest.responseText)[0]
           # Finally insert the status into the DOM
           if status? then insertStatus el, status
-      statusRequest.send null
-  shaRequest.send null
+      try
+        statusRequest.send null
+      catch e
+        # Request could fail due to rate limit
+        # just keeping the endusers console clean
+        (->)()
 
+  try
+    shaRequest.send null
+  catch e
+    # Request could fail due to rate limit
+    # just keeping the endusers console clean
+    (->)()

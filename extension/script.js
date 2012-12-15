@@ -53,17 +53,24 @@
         statusRequest.onreadystatechange = function() {
           var status;
           if (statusRequest.readyState === 4) {
-            debugger;
             status = JSON.parse(statusRequest.responseText)[0];
             if (status != null) {
               return insertStatus(el, status);
             }
           }
         };
-        return statusRequest.send(null);
+        try {
+          return statusRequest.send(null);
+        } catch (e) {
+          return (function() {})();
+        }
       }
     };
-    shaRequest.send(null);
+    try {
+      shaRequest.send(null);
+    } catch (e) {
+      (function() {})();
+    }
   }
 
 }).call(this);
