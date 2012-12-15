@@ -7,8 +7,9 @@ module.exports = (grunt) ->
         files:
           'extension/script.js': 'src/*.coffee'
     watch:
-      files: 'src/*.coffee'
-      tasks: ['default']
+      main:
+        files: 'src/*.coffee'
+        tasks: ['default']
 
   grunt.loadNpmTasks 'grunt-contrib-coffee'
   grunt.loadNpmTasks 'grunt-contrib-watch'
