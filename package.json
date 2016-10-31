@@ -18,7 +18,7 @@
   "author": "Stephan Bönnemann",
   "license": "MIT",
   "devDependencies": {
-    "grunt-contrib-coffee": "~0.3.2",
+    "grunt-contrib-coffee": "~1.0.0",
     "grunt-contrib-watch": "~0.2.0a"
   }
 }
